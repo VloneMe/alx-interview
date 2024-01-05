@@ -5,24 +5,23 @@
 
 def pascal_triangle(n):
     """
-    Returns a list of lists of integers
-    representing Pascal's Triangle with n rows,
-    or an empty list if n <= 0.
+    Returns a list of lists representing Pascal's Triangle up to the nth row.
+    Returns an empty list if n <= 0.
     """
     if n <= 0:
         return []
 
-    triangle = [[1]]
+    triangle = [[1]]  # Initialize Pascal's Triangle with the first row
+
     for i in range(1, n):
-        temp_row = [1]
+        row = [1]
         for j in range(len(triangle[i - 1]) - 1):
-            temp_row.append(triangle[i - 1][j] + triangle[i - 1][j + 1])
-        temp_row.append(1)
-        triangle.append(temp_row)
+            row.append(triangle[i - 1][j] + triangle[i - 1][j + 1])
+        row.append(1)
+        triangle.append(row)
 
     return triangle
 
 # Example usage:
-n = 5
-result = pascal_triangle(n)
+result = pascal_triangle(5)
 print(result)
