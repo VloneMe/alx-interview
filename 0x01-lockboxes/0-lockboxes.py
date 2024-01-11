@@ -1,29 +1,41 @@
 #!/usr/bin/python3
 
 """
-Problem: You have n number of locked boxes in front of you.
-         Each box is numbered sequentially from 0 to n - 1
-         and each box may contain keys to the other boxes.
-Task: Write a method that determines if all the boxes can be opened.
+Lockboxes
 """
 
 
 def canUnlockAll(boxes):
     """
-    Function that checks with boolean value if the list type and
-    length to invoke two for iterations one to traverse the list
-    and the other to compaer if key is idx or not in order to open
+    Check if all boxes can be unlocked using their keys.
+    
+    Args:
+        boxes (list): A list of lists representing the boxes and their keys.
+
+    Returns:
+        bool: True if all boxes can be opened, else False.
     """
-    if type(boxes) is not list:
+    """# Ensure the input is a list """
+    if not isinstance(boxes, list):
         return False
-    elif (len(boxes)) == 0:
+
+    """# Ensure the list is not empty """
+    elif not boxes:
         return False
-    for k in range(1, len(boxes) - 1):
-        boxes_checked = False
+
+    """# Iterate over the keys """
+    for key in range(1, len(boxes) - 1):
+        box_checked = False
+
+        """# Check if the key corresponds to a box and is not the same as the box index """
         for idx in range(len(boxes)):
-            boxes_checked = k in boxes[idx] and k != idx
-            if boxes_checked:
+            box_checked = key in boxes[idx] and key != idx
+            if box_checked:
                 break
-        if boxes_checked is False:
-            return boxes_checked
+
+        """# If a box couldn't be opened with the current key, return False """
+        if not box_checked:
+            return box_checked
+
+    """# If all boxes can be opened, return True """
     return True
