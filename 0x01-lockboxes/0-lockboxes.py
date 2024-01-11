@@ -18,26 +18,22 @@ def canUnlockAll(boxes):
     Returns:
         bool: True if all boxes can be opened, else False.
     """
-    # Ensure the input is a list
     if type(boxes) is not list:
         return False
-    # Ensure the list is not empty
-    elif len(boxes) == 0:
+
+    elif (len(boxes)) == 0:
         return False
 
-    # Iterate over the keys
     for key in range(1, len(boxes) - 1):
-        box_checked = False
+        boxes_checeyed = False
 
-        # Check if the key corresponds to a box and is not the same as the box index
         for idx in range(len(boxes)):
-            box_checked = key in boxes[idx] and key != idx
-            if box_checked:
+            boxes_checked = key in boxes[idx] and key != idx
+
+            if boxes_checked:
                 break
 
-        # If a box couldn't be opened with the current key, return False
-        if not box_checked:
-            return box_checked
-
-    # If all boxes can be opened, return True
+        if boxes_checked is False:
+            return boxes_checked
+            
     return True
