@@ -16,7 +16,7 @@ def minOperations(n):
     - int: The minimum number of operations needed.
     - Returns 0 if n is impossible to achieve.
     """
-    if n == 1:
+    if n <= 1:
         return 0
 
     dp = [float('inf')] * (n + 1)
