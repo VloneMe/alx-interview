@@ -6,25 +6,21 @@
 
 def minOperations(n):
     """
-    This calculates the fewest number of operations
-    needed to result in exactly n H characters in the file.
+    Method for compute the minimum number
+    of operations for task Copy All and Paste
 
-    Parameters:
-    - n (int): The target number of H characters.
-
-    Returns:
-    - int: The minimum number of operations needed.
-    - Returns 0 if n is impossible to achieve.
+    Args:
+        n: input value
+    Return: the sum of the operations
     """
-    if n <= 1:
+    if n < 2:
         return 0
-
-    dp = [float('inf')] * (n + 1)
-    dp[1] = 0
-
-    for i in range(2, n + 1):
-        for j in range(1, i):
-            if i % j == 0:
-                dp[i] = min(dp[i], dp[j] + i // j)
-
-    return dp[n] if dp[n] != float('inf') else 0
+    op_list = []
+    i = 1
+    while n != 1:
+        i += 1
+        if n % i == 0:
+            while n % i == 0:
+                n /= i
+                op_list.append(i)
+    return sum(op_list)
