@@ -1,42 +1,54 @@
 #!/usr/bin/python3
+"""
+Log Parsing Script
+
+This script reads log data from stdin, parses it, and computes metrics such as total file size
+and the number of occurrences for specific status codes. Metrics are printed after every 10 lines
+or when the script is interrupted by a keyboard signal (CTRL + C).
+"""
 
 import sys
-import signal
 
-# Define the status codes to track
-STATUS_CODES = {200, 301, 400, 401, 403, 404, 405, 500}
+if __name__ == '__main__':
+    total_file_size, line_count = 0, 0
+    status_codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
+    status_code_counts = {code: 0 for code in status_codes}
 
-# Initialize variables for metrics
-total_file_size = 0
-status_code_counts = {code: 0 for code in STATUS_CODES}
-lines_processed = 0
+    def print_statistics(stats: dict, file_size: int) -> None:
+        """
+        Print computed statistics.
 
-def print_statistics():
-    """
-    Print statistics based on the metrics collected.
-    """
-    print(f"Total file size: {total_file_size}")
-    for code in sorted(STATUS_CODES):
-        count = status_code_counts.get(code, 0)
-        if count > 0:
-            print(f"{code}: {count}")
+        Args:
+            stats (dict): Dictionary containing status code counts.
+            file_size (int): Total file size.
+        """
+        print(f"Total File Size: {file_size}")
+        for code, count in sorted(stats.items()):
+            if count:
+                print(f"{code}: {count}")
 
-def process_line(line):
-    """
-    Process a single line and update metrics.
-    """
     try:
-        parts = line.split()
-        file_size = int(parts[-1])
-        status_code = int(parts[-2])
+        for line in sys.stdin:
+            line_count += 1
+            data = line.split()
+            
+            try:
+                status_code = data[-2]
+                if status_code in status_code_counts:
+                    status_code_counts[status_code] += 1
+            except IndexError:
+                pass
 
-        global total_file_size, lines_processed
-        total_file_size += file_size
-        lines_processed += 1
+            try:
+                total_file_size += int(data[-1])
+            except (IndexError, ValueError):
+                pass
 
-        if status_code in STATUS_CODES:
-            status_code_counts[status_code] += 1
+            if line_count % 10 == 0:
+                print_statistics(status_code_counts, total_file_size)
+        
+        print_statistics(status_code_counts, total_file_size)
 
-    except (ValueError, IndexError):
-        # Skip lines that do not match the specified format
-        pass
+    except KeyboardInterrupt:
+        print_statistics(status_code_counts, total_file_size)
+        raise
