@@ -2,7 +2,7 @@
 """Make change challenge"""
 
 
-def make_change(coins, total):
+def makeChange(coins, total):
     """
     Calculate the minimum number of coins needed to reach a total.
 
