@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" 0-prime_game.py """
 
 
 def isWinner(x, nums):
