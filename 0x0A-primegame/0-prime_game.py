@@ -44,6 +44,7 @@ def isWinner(x, nums):
         return "Maria"
     return None
 
+
 def rm_multiples(ls, x):
     """
     Removes multiples of a prime number from an array of possible prime
